@@ -2,7 +2,7 @@ import React from 'react';
 
 const CoverImage = (props) => {
     return <div >
-        {props.image}
+        <img src={props.image} alt="movie"/>
         <h1>{props.title}</h1>
         <p>{props.text}</p>
     </div>

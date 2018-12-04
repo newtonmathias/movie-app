@@ -21,7 +21,16 @@ class Home extends Component {
         this.setState({ loading: true });
         const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-USpage-1`;
         this.fetchItems(endpoint);
+        this.nowPlaying();
         
+    }
+
+    nowPlaying = () => {
+        const endpoint = `${API_URL}movie/now_playing?api_key=${API_KEY}&language=en-USpage-1`;
+        fetch(endpoint)
+        .then(result => result.json())
+        .then(result => {console.log(result);
+        })
     }
 
     searchItems = (searchTerm) => {
