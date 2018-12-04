@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { API_KEY, API_URL, IMAGE_BASE_URL, BACKDROP_SIZE } from '../../config';
-import CoverImage from '../Elements/CoverImage/CoverImage'
+import CoverImage from '../Elements/CoverImage/CoverImage';
+import SearchBar from '../Elements/SearchBar/SearchBar';
+import FourColGrid from '../Elements/FourColGrid/FourColGrid';
+import MovieThumb from '../Elements/MovieThumb/MovieThumb';
+import LoadMoreBtn from '../Elements/LoadMoreBtn/LoadMoreBtn';
+import Spinner from '../Elements/Spinner/Spinner';
 
 class Home extends Component {
     state = {
@@ -18,6 +23,22 @@ class Home extends Component {
         this.fetchItems(endpoint);
         
     }
+
+    searchItems = (searchTerm) => {
+        let endpoint = '';
+        this.setState({
+            movies: [],
+            loading:true,
+            searchTerm: ''
+        })
+        
+        if (searchTerm === '') {
+            endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-US&page=1`;
+        }else{
+            endpoint = `${API_URL}search/movie?api_key=${API_KEY}&language=en-US&query=${searchTerm}`;
+        }
+        this.fetchItems(endpoint);
+    } 
     
     fetchItems = (endpoint) => {
         fetch(endpoint)
@@ -43,7 +64,9 @@ class Home extends Component {
                 image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${this.state.coverImage.backdrop_path}`}
             /> :
                 null }
+                <SearchBar callback={this.searchItems}/>
       </div>
+      
     )
   }
 }
