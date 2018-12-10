@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import { API_KEY, API_URL, IMAGE_BASE_URL, BACKDROP_SIZE } from '../../config';
+import { API_KEY, API_URL, IMAGE_BASE_URL, BACKDROP_SIZE,  POSTER_SIZE } from '../../config';
 import CoverImage from '../Elements/CoverImage/CoverImage';
 import SearchBar from '../Elements/SearchBar/SearchBar';
 import FourColGrid from '../Elements/FourColGrid/FourColGrid';
 import MovieThumb from '../Elements/MovieThumb/MovieThumb';
 import LoadMoreBtn from '../Elements/LoadMoreBtn/LoadMoreBtn';
 import Spinner from '../Elements/Spinner/Spinner';
+import ThreeRowGrid from '../Elements/ThreeRowGrid/ThreeRowGrid'
+import './Home.css'
 
 class Home extends Component {
     state = {
@@ -22,6 +24,7 @@ class Home extends Component {
         const endpoint = `${API_URL}movie/popular?api_key=${API_KEY}&language=en-USpage-1`;
         this.fetchItems(endpoint);
         this.nowPlaying();
+        
         
     }
 
@@ -74,6 +77,19 @@ class Home extends Component {
             /> :
                 null }
                 <SearchBar callback={this.searchItems}/>
+
+     <div className="rmdb-home-grid">
+                <FourColGrid loading={this.state.loading} >
+                    {this.state.movies.map( (element, i) => {
+                        return <MovieThumb 
+                        key={i}
+                        clickable={true}
+                        image={element.poster_path ? `${IMAGE_BASE_URL}${POSTER_SIZE}${element.poster_path}` : './images/no_image.jpg'}
+                    />
+                    })}
+                </FourColGrid>
+     </div>
+                
       </div>
       
     )
